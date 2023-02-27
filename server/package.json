@@ -1,12 +1,15 @@
 {
   "dependencies": {
     "@types/socket.io": "^3.0.2",
+    "firebase-admin": "^11.5.0",
     "nanoid": "^3.0.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.9",
     "socket.io": "^4.6.1",
     "ws": "^8.12.1"
   },
   "devDependencies": {
-    "@types/node": "^18.14.1"
+    "@types/node": "^18.14.1",
+    "@types/node-fetch": "^2.6.2",
+    "@types/whatwg-fetch": "^0.0.33"
   }
 }

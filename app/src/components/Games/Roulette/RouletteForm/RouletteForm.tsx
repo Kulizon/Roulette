@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import { RouletteBet } from "../../../../types/RouletteBet";
 import { socket } from "../../../../index";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store";
 
 const RouletteForm = () => {
   const [placedBet, setPlacedBet] = useState<RouletteBet | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [balance, setBalance] = useState(1000);
+
+  const jwt = useSelector((state: RootState) => state.user.jwt);
 
   const placeBetHandler = (e: any) => {
     e.preventDefault();
@@ -34,26 +38,27 @@ const RouletteForm = () => {
         userID: socket.id,
       };
 
+      if (!jwt) return;
+
       // send newBet
-      socket.emit("newBet", newBet);
+      socket.emit("newBet", newBet, jwt);
 
       e.target[0].value = "";
       e.target[1].value = "";
     } else if (e.nativeEvent.submitter.id === "cancel") {
-      socket.emit("cancelBet", placedBet);
+      socket.emit("cancelBet", placedBet, jwt);
     }
   };
 
   useEffect(() => {
     socket.on("betIsValid", (bet: RouletteBet) => {
-      // set text or smth
-      // prevent ability to bet another one
-      // check in backend if there is no bet
+      console.log("Bet placed successfully");
       setPlacedBet(bet);
     });
 
     socket.on("betIsInvalid", () => {
       // set text or smth
+      console.log("Bet placing failed");
     });
 
     socket.on("cancelSuccess", (bet: RouletteBet) => {

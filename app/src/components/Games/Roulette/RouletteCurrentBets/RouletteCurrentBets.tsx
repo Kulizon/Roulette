@@ -16,18 +16,16 @@ const RouletteCurrentBets = () => {
   const evenNumbers = userBets.filter((b) => b.number % 2 === 0);
   const oddNumbers = userBets.filter((b) => b.number % 2 === 1);
 
-  console.log(evenNumbers, oddNumbers);
-
   return (
     <div className={styles["user-bets"]}>
       <div>
-        Even: {" "}
+        Even:{" "}
         {evenNumbers.map((bet) => (
           <span key={bet.id}>{bet.userID}</span>
         ))}
       </div>
       <div>
-        Odd: {" "}
+        Odd:{" "}
         {oddNumbers.map((bet) => (
           <span key={bet.id}>{bet.userID}</span>
         ))}

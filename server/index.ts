@@ -1,6 +1,7 @@
 import { RouletteSpan } from "./types/RouletteSpan";
 import { RouletteBet } from "./types/RouletteBet";
 import { RouletteRound } from "./types/RouletteRound";
+import fetch from "node-fetch";
 import serv from "http";
 
 const http = serv.createServer();
@@ -12,7 +13,14 @@ const io = new Server(http, {
   cors: { origin: "*" },
 });
 
-let connections: { id: string; balance: number }[] = [];
+let loggedInUsers: {
+  name: string;
+  email: string;
+  balance: number;
+  jwt: string;
+  socketID: string;
+}[] = [];
+let connections: string[] = [];
 let bets: RouletteBet[] = [];
 let history: RouletteRound[] = [];
 
@@ -63,7 +71,9 @@ setInterval(() => {
   bets.forEach((bet) => {
     if (bet.number % 2 == spans[winner].number % 2) {
       io.to(bet.userID).emit("win");
-      const user = connections.find((c) => c.id == bet.userID);
+      const user = loggedInUsers.find((c) => c.socketID == bet.userID);
+      console.log(user);
+
       if (!user) return;
       user.balance += bet.amount * 2;
       io.to(bet.userID).emit("newUserBalance", user?.balance, true);
@@ -100,7 +110,7 @@ setInterval(() => {
 io.on("connection", (socket: any) => {
   console.log("user connected");
 
-  connections.push({ id: socket.id, balance: 1000 });
+  connections.push(socket.id);
 
   if (timeTillSpin >= 1000) {
     setTimeout(() => {
@@ -112,7 +122,31 @@ io.on("connection", (socket: any) => {
     }, 250);
   }
 
-  socket.on("newBet", (newBet: RouletteBet) => {
+  socket.on("login", async (jwt: string) => {
+    const response = await fetch(
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${jwt}`,
+      { method: "POST" }
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if (result.email) {
+      loggedInUsers.push({
+        name: result.name,
+        email: result.email,
+        balance: 1000, // get from db later
+        jwt: jwt,
+        socketID: socket.id,
+      });
+      socket.emit("loginSuccess", jwt);
+    } else {
+      socket.emit("loginFailure");
+    }
+  });
+
+  socket.on("newBet", (newBet: RouletteBet, jwt: string) => {
     const bet = { ...newBet };
     bet.roundID = currentRoundID;
     bet.id = nanoid();
@@ -126,7 +160,9 @@ io.on("connection", (socket: any) => {
       }
     });
 
-    const user = connections.find((c) => c.id == socket.id);
+    const user = loggedInUsers.find((user) => user.jwt === jwt);
+
+    console.log(user);
 
     if (
       newBet.amount > 0 &&
@@ -148,7 +184,7 @@ io.on("connection", (socket: any) => {
     }
   });
 
-  socket.on("cancelBet", (bet: RouletteBet) => {
+  socket.on("cancelBet", (bet: RouletteBet, jwt: string) => {
     let userAlreadyPlacedBet = false;
     bets.forEach((b) => {
       if (b.userID === socket.id) {
@@ -156,7 +192,7 @@ io.on("connection", (socket: any) => {
       }
     });
 
-    const user = connections.find((c) => c.id == socket.id);
+    const user = loggedInUsers.find((user) => user.jwt == jwt);
 
     if (timeTillSpin > 1000 && userAlreadyPlacedBet && user) {
       bets = [...bets.filter((b) => bet.id != b.id)];
@@ -172,7 +208,8 @@ io.on("connection", (socket: any) => {
   socket.once("disconnect", function () {
     console.log("user disconnected");
 
-    connections = connections.filter((s) => s.id !== socket.id);
+    connections = connections.filter((c) => c !== socket.id);
+    loggedInUsers = loggedInUsers.filter((user) => user.socketID !== socket.id);
   });
 });
 

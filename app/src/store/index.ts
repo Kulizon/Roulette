@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rouletteReducer from "./roulette";
+import userReducer from "./user";
 
 const store = configureStore({
-  reducer: { roulette: rouletteReducer },
+  reducer: { user: userReducer },
 });
 
 export default store;
