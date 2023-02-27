@@ -1,0 +1,54 @@
+.outer {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  background: gainsboro;
+  overflow: hidden;
+  position: relative;
+
+  h3 {
+    color: #000;
+    position: relative;
+    z-index: 2;
+  }
+
+  .arrow {
+    width: 10px;
+    height: 40px;
+    background: red;
+    position: absolute;
+    transform: translateX(50%);
+    right: 50%;
+    z-index: 2;
+  }
+}
+
+.inner {
+  display: flex;
+  height: 200px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  span {
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 150px;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    div {
+      background: beige;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      border: solid 5px #000;
+    }
+  }
+}

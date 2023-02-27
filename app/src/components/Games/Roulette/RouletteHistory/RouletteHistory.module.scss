@@ -1,0 +1,18 @@
+.roulette-history {
+  display: flex;
+
+  div {
+    height: 50px;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: lightblue;
+    margin-right: 0.5rem;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}

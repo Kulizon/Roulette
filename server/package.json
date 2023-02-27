@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@types/socket.io": "^3.0.2",
+    "nanoid": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "socket.io": "^4.6.1",
+    "ws": "^8.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.1"
+  }
+}
