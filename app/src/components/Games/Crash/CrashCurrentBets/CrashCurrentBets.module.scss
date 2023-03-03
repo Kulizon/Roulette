@@ -1,0 +1,77 @@
+@import "./../../../../scss/variables.scss";
+
+.user-bets {
+  display: flex;
+  flex-direction: column;
+  column-gap: 3rem;
+  width: 100%;
+  grid-column: span 3;
+  margin-top: 2rem;
+  border-radius: 15px;
+  overflow: hidden;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: lightgreen;
+      padding: 0.5rem 0.75rem;
+      background: $drk-4;
+      color: $lght-6;
+      font-weight: 500;
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+
+      .user-bets-profile {
+        img {
+          width: 28px;
+          margin-right: 1rem;
+        }
+      }
+    }
+  }
+}
+
+.user-bets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.75rem;
+  background: $drk-3;
+  // margin-bottom: 1rem;
+  padding: 0.75rem 0.75rem;
+  background: $drk-5;
+}
+
+.user-bets-users,
+.user-bets-pot {
+  display: flex;
+  align-items: center;
+
+  span {
+    color: $lght-4;
+  }
+}
+
+.user-bets-users {
+  svg {
+    height: 100%;
+    width: 22px;
+    margin-right: 0.5rem;
+    color: $drk-1;
+  }
+}
+
+.user-bets-pot {
+  img {
+    height: 18px;
+    margin-right: 0.25rem;
+  }
+}

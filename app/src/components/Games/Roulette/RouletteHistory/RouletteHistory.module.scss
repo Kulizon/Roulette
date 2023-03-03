@@ -1,18 +1,22 @@
+@import "./../../../../scss/variables.scss";
+
 .roulette-history {
   display: flex;
+  align-items: center;
 
-  div {
-    height: 50px;
-    width: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: lightblue;
+  span {
+    margin-right: 1rem;
+    color: $lght-5;
+    font-weight: 700;
+  }
+
+  img {
+    height: 30px;
+    width: 30px;
     margin-right: 0.5rem;
+  }
 
-    &:last-of-type {
-      margin-right: 0;
-    }
+  &:last-of-type {
+    margin-right: 0;
   }
 }

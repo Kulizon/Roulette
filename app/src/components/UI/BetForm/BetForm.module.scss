@@ -1,0 +1,124 @@
+@import "./../../../scss/variables.scss";
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .bet-input {
+    position: relative;
+    width: 100%;
+    margin-bottom: 0.75rem;
+
+    span {
+      position: absolute;
+      left: 0;
+      height: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      background: $drk-1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 60%;
+        margin-left: 0.8rem;
+        margin-right: 0.4rem;
+        border-right: 2px solid $drk-2;
+        padding-right: 0.4rem;
+      }
+    }
+
+    > input {
+      height: 45px;
+      width: 100%;
+      background: $drk-3;
+      border: 1px solid $drk-1;
+      padding: 0.75rem 0.75rem;
+      padding-left: 4rem;
+      font-size: 1rem;
+      color: $lght-2;
+      border-radius: 5px;
+      color: $lght-3;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    .radio {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 0.75rem;
+      position: absolute;
+      right: 280px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 100%;
+
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 45px;
+        width: 45px;
+      }
+
+      input {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        width: 70%;
+        opacity: 0;
+        cursor: pointer;
+
+        &:checked {
+          & + label {
+            opacity: 1;
+          }
+        }
+      }
+
+      label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        opacity: 0.65;
+
+        img {
+          height: 30px;
+          pointer-events: none;
+          position: relative;
+          z-index: 1;
+        }
+      }
+    }
+  }
+
+  .control-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1rem;
+  }
+
+  .value-buttons {
+    display: flex;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    button {
+      margin-right: 0.5rem;
+      padding: 0.3rem 0.3rem;
+      background: $drk-4;
+      color: $lght-4;
+    }
+  }
+}

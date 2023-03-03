@@ -1,0 +1,84 @@
+@import "./../../../../../scss/variables.scss";
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+
+  .list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.75rem;
+    background: $drk-5;
+  }
+
+  ul {
+    background: $drk-1;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      color: $lght-6;
+      font-weight: 500;
+
+      &.even {
+        background: $drk-4;
+      }
+
+      &.odd {
+        background: $drk-3;
+      }
+
+      span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+      }
+
+      .list-profile {
+        img {
+          height: 27px;
+          width: 27px;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+.list-pot,
+.list-users {
+  display: flex;
+  align-items: center;
+
+  span {
+    color: $lght-4;
+  }
+
+  img {
+    height: 30px;
+    margin-right: 0.75rem;
+  }
+
+  svg {
+    height: 100%;
+    width: 22px;
+    margin-right: 0.5rem;
+    color: $drk-1;
+  }
+}
+
+.list-pot img {
+  height: 18px;
+  margin-right: 0.1rem;
+}

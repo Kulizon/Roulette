@@ -1,0 +1,70 @@
+@import "./../../scss//variables.scss";
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: $drk-2;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid red;
+
+  .balance {
+    display: flex;
+    color: $lght-2;
+
+    img {
+      margin-right: 0.1rem;
+    }
+  }
+
+  .navigation {
+    display: flex;
+
+    span {
+      margin-right: 2rem;
+      font-size: 1.3rem;
+      color: $lght-1;
+    }
+
+    .navigation-links {
+      display: flex;
+      align-items: center;
+
+      a {
+        color: $drk-6;
+        font-weight: 500;
+        font-size: 1.05rem;
+
+        &:first-of-type {
+          margin-right: 1rem;
+        }
+
+        &:hover {
+          border-bottom: 1px solid red;
+        }
+      }
+
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .profile-info {
+    display: flex;
+    align-items: center;
+    color: $drk-6;
+
+    div {
+      display: flex;
+      align-items: center;
+    }
+
+    img {
+      margin-left: 0.5rem;
+      width: 20px;
+    }
+  }
+}

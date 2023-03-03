@@ -1,29 +1,51 @@
 import { useEffect, useState } from "react";
 import { socket } from "../../../../index";
-import { RouletteRound } from "../../../../types/RouletteRound";
+import { RouletteRound } from "../../../../types/Rounds";
 
 import styles from "./RouletteHistory.module.scss";
+
+import chip1 from "./../../../../resources/chip1.png";
+import chip2 from "./../../../../resources/chip2.png";
+import chip3 from "./../../../../resources/chip3.png";
 
 const RouletteHistory = () => {
   const [history, setHistory] = useState<RouletteRound[]>([]);
 
   useEffect(() => {
-    socket.on("historyUpdated", (history: RouletteRound[]) => {
-      setTimeout(() => {
-        setHistory(history);
-      }, 2500);
-    });
+    socket.emit("getRouletteHistory");
+
+    socket.on(
+      "rouletteHistoryUpdated",
+      (newHistory: RouletteRound[], isInitial: boolean) => {
+        console.log(newHistory);
+
+        const timeoutLength = isInitial ? 50 : 2500;
+        setTimeout(() => {
+          setHistory(newHistory.reverse());
+        }, timeoutLength);
+      }
+    );
+
+    return () => {
+      socket.removeListener("rouletteHistoryUpdated");
+    };
   }, []);
 
   return (
     <div className={styles["roulette-history"]}>
+      <span>LAST GAME</span>
       {history.map((round) => (
-        <div key={round.id}>
-          <span>{round.winningNumber}</span>
-          <p>
-            Pot: {round.bets.reduce((sum, next) => (sum += next.amount), 0)}
-          </p>
-        </div>
+        <img
+          key={round.id}
+          src={
+            round.winningNumber % 2 === 0
+              ? chip1
+              : round.winningNumber === -1
+              ? chip2
+              : chip3
+          }
+          alt="last round"
+        ></img>
       ))}
     </div>
   );

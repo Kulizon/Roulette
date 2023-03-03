@@ -1,54 +1,123 @@
+@import "./../../../../scss/variables.scss";
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .outer {
-  width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  background: gainsboro;
+  align-items: center;
   overflow: hidden;
   position: relative;
+  margin: 1rem 0;
+  // background: $drk-4;
+  padding: 1rem 0;
+  border-radius: 15px;
+
+  background: linear-gradient(
+    -45deg,
+    $drk-4,
+    $drk-3,
+    rgba($drk-4, 0.8),
+    rgba($drk-4, 0.8)
+  );
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
 
   h3 {
-    color: #000;
+    color: $drk-6;
     position: relative;
     z-index: 2;
+    position: absolute;
+    bottom: 0.5rem;
+    width: 150px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .arrow {
-    width: 10px;
-    height: 40px;
+    width: 3px;
+    height: 65%;
     background: red;
     position: absolute;
-    transform: translateX(50%);
+    transform: translate(50%, 50%);
     right: 50%;
+    bottom: 50%;
     z-index: 2;
   }
 }
 
 .inner {
   display: flex;
-  height: 200px;
+  height: 180px;
   width: 100%;
   position: relative;
   display: flex;
   align-items: center;
 
   span {
-    height: 150px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-basis: 150px;
+    flex-basis: 100px;
     flex-grow: 0;
     flex-shrink: 0;
 
     div {
-      background: beige;
+      background: $drk-4;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100%;
       width: 100%;
       text-align: center;
-      border: solid 5px #000;
+      border: solid 5px $drk-1;
+      outline: $drk-1 solid 1px;
+
+      h4 {
+        color: $drk-6;
+        font-weight: 600;
+        transform: translateY(0.25rem);
+      }
+
+      img {
+        width: 60%;
+        height: 60%;
+      }
     }
   }
+}
+
+.gradient-left {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 120px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, $drk-4 90%);
+  z-index: 10;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0089fff1', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+}
+
+.gradient-right {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0) 00%, $drk-4 80%);
+  z-index: 10;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0089fff1', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
 }
