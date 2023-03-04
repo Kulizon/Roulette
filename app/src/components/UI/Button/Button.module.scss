@@ -5,4 +5,15 @@
   background: $drk-5;
   position: relative;
   color: #fff;
+  transition: 0.2s;
+  border-radius: 3px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+  }
 }

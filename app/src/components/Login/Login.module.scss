@@ -1,3 +1,51 @@
+@import "./../../scss/variables.scss";
+
 .login {
   display: flex;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: linear-gradient(
+    -45deg,
+    $drk-4,
+    $drk-3,
+    rgba($drk-4, 0.8),
+    rgba($drk-4, 0.8)
+  );
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    color: $lght-3;
+  }
+
+  .chips {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 1.5rem;
+    margin: 0.75rem 0 2rem;
+
+    img {
+      width: 2rem;
+    }
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

@@ -23,20 +23,6 @@ const CrashCurrentBets = () => {
     };
   }, []);
 
-  const TEMP_USERS_BETS: CrashBet[] = [
-    {
-      amount: 10,
-      id: "1",
-      userID: "1",
-      userImage:
-        "https://medsport-polska.pl/wp-content/uploads/2023/01/Bez-nazwy-1.jpg",
-      username: "username",
-      roundID: "21321",
-      type: "crash",
-      stoppedAt: -1,
-    },
-  ];
-
   return (
     <div className={styles["user-bets"]}>
       <div className={styles["user-bets-header"]}>
@@ -51,8 +37,7 @@ const CrashCurrentBets = () => {
       </div>
 
       <ul>
-        {/* userBets. */}
-        {[...TEMP_USERS_BETS, ...userBets].map((bet) => (
+        {userBets.map((bet) => (
           <li key={bet.id}>
             <div className={styles["user-bets-profile"]}>
               <img src={bet.userImage}></img>

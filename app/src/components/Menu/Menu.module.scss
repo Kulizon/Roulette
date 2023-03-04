@@ -6,9 +6,9 @@
   align-items: center;
   width: 100%;
   background: $drk-2;
-  padding: 1rem 2rem;
+  padding: 0.75rem 2rem;
   margin-bottom: 2rem;
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid $drk-1;
 
   .balance {
     display: flex;
@@ -22,10 +22,16 @@
   .navigation {
     display: flex;
 
-    span {
+    h2 {
       margin-right: 2rem;
       font-size: 1.3rem;
       color: $lght-1;
+      font-weight: 400;
+
+      span {
+        color: $main;
+        font-weight: 700;
+      }
     }
 
     .navigation-links {
@@ -36,13 +42,14 @@
         color: $drk-6;
         font-weight: 500;
         font-size: 1.05rem;
+        padding: 0.4rem 0;
 
         &:first-of-type {
           margin-right: 1rem;
         }
 
         &:hover {
-          border-bottom: 1px solid red;
+          border-bottom: 1px solid $main;
         }
       }
 
@@ -65,6 +72,20 @@
     img {
       margin-left: 0.5rem;
       width: 20px;
+    }
+  }
+
+  .logout {
+    margin-left: 1rem;
+    cursor: pointer;
+    width: 2rem;
+    height: 1.4rem;
+    padding-left: 0.7rem;
+    border-left: 1px solid $drk-5;
+    transition: 0.2s;
+
+    &:hover {
+      opacity: 0.8;
     }
   }
 }

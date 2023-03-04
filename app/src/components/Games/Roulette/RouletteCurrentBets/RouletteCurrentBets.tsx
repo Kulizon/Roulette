@@ -28,56 +28,7 @@ const RouletteCurrentBets = () => {
   return (
     <div className={styles["user-bets"]}>
       <BetList list={evenNumbers} type="e"></BetList>
-      <BetList
-        type="s"
-        list={[
-          ...specialNumbers,
-          {
-            number: 10,
-            amount: 100,
-            id: "1",
-            userID: "1",
-            userImage:
-              "https://cdn4.buysellads.net/uu/1/81016/1609783206-authentic-260x200-variation-4.jpg",
-            username: "Kacper",
-            roundID: "1",
-            type: "roulette",
-          },
-          {
-            number: 10,
-            amount: 100,
-            id: "1",
-            userID: "1",
-            userImage:
-              "https://cdn4.buysellads.net/uu/1/81016/1609783206-authentic-260x200-variation-4.jpg",
-            username: "Kacper",
-            roundID: "1",
-            type: "roulette",
-          },
-          {
-            number: 10,
-            amount: 100,
-            id: "1",
-            userID: "1",
-            userImage:
-              "https://cdn4.buysellads.net/uu/1/81016/1609783206-authentic-260x200-variation-4.jpg",
-            username: "Kacper",
-            roundID: "1",
-            type: "roulette",
-          },
-          {
-            number: 10,
-            amount: 100,
-            id: "1",
-            userID: "1",
-            userImage:
-              "https://cdn4.buysellads.net/uu/1/81016/1609783206-authentic-260x200-variation-4.jpg",
-            username: "Kacper",
-            roundID: "1",
-            type: "roulette",
-          },
-        ]}
-      ></BetList>
+      <BetList type="s" list={userBets}></BetList>
       <BetList list={oddNumbers} type="o"></BetList>
     </div>
   );

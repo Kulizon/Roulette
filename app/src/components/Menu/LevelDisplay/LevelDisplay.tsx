@@ -8,8 +8,8 @@ const LevelDisplay = (props: { level: number }) => {
           d="M18 2.0845
       a 15.9155 15.9155 0 0 1 0 31.831
       a 15.9155 15.9155 0 0 1 0 -31.831"
-          fill="#5A6A60"
-          stroke="blue"
+          fill="#34365d"
+          stroke="#eba232"
           strokeWidth="3"
           strokeDasharray={`${Math.floor(
             (props.level - Math.floor(props.level)) * 100

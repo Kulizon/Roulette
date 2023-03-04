@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import { changeUser } from "../../store/user";
 
 import styles from "./Login.module.scss";
+import chip1 from "./../../resources/chip1.png";
+import chip2 from "./../../resources/chip2.png";
+import chip3 from "./../../resources/chip3.png";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,9 +16,6 @@ const Login = () => {
     socket.on(
       "loginSuccess",
       (user: { name: string; image: string; jwt: string }) => {
-        alert("Login successful");
-        console.log(user);
-
         dispatch(changeUser(user));
       }
     );
@@ -31,7 +31,12 @@ const Login = () => {
 
   return (
     <div className={styles.login}>
-      <h1>Login</h1>
+      <h1>Login!</h1>
+      <div className={styles.chips}>
+        <img src={chip1} alt="Chip 1" />
+        <img src={chip2} alt="Chip 2" />
+        <img src={chip3} alt="Chip 3" />
+      </div>
       <GoogleLogin
         onSuccess={(response) => socket.emit("login", response.credential)}
         onError={() => {

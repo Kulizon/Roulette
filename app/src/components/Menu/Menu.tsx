@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../../index";
 import { RootState } from "../../store";
-import { changeGame } from "../../store/user";
+import { changeGame, changeUser } from "../../store/user";
 
 import styles from "./Menu.module.scss";
 import crystalPng from "./../../resources/crystal.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { faDiceTwo, faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDiceTwo,
+  faArrowTrendUp,
+  faRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Button from "../UI/Button/Button";
 import LevelDisplay from "./LevelDisplay/LevelDisplay";
@@ -24,8 +28,6 @@ const Menu = () => {
     socket.on(
       "newUserInfo",
       (data: { balance: number; level: number }, isTimeout) => {
-        console.log(data);
-
         if (isTimeout) {
           setTimeout(() => {
             setBalance(data.balance);
@@ -42,7 +44,9 @@ const Menu = () => {
   return (
     <div className={styles.menu}>
       <div className={styles.navigation}>
-        <span>SoloEmpire</span>
+        <h2>
+          Funny<span>Spin</span>
+        </h2>
         <div className={styles["navigation-links"]}>
           <a
             onClick={(e: any) => {
@@ -79,6 +83,12 @@ const Menu = () => {
           {name}
           <img src={image} alt="Profile"></img>
         </div>
+
+        <FontAwesomeIcon
+          icon={faRightFromBracket as IconDefinition}
+          className={styles.logout}
+          onClick={() => dispatch(changeUser({ jwt: "", name: "", image: "" }))}
+        ></FontAwesomeIcon>
       </div>
     </div>
   );
