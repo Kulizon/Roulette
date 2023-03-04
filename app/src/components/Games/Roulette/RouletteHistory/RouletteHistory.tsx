@@ -17,9 +17,7 @@ const RouletteHistory = () => {
     socket.on(
       "rouletteHistoryUpdated",
       (newHistory: RouletteRound[], isInitial: boolean) => {
-        console.log(newHistory);
-
-        const timeoutLength = isInitial ? 50 : 2500;
+        const timeoutLength = isInitial ? 10 : 3000;
         setTimeout(() => {
           setHistory(newHistory.reverse());
         }, timeoutLength);

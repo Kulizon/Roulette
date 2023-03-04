@@ -1,12 +1,14 @@
 @import "./../../../scss/variables.scss";
 
 .button {
-  padding: 0.3rem 1rem;
-  background: $drk-5;
+  padding: 0.4rem 1rem;
+  background: $sub;
   position: relative;
   color: #fff;
   transition: 0.2s;
   border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 1px;
 
   &:hover {
     cursor: pointer;

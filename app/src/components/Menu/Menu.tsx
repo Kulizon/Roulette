@@ -32,7 +32,7 @@ const Menu = () => {
           setTimeout(() => {
             setBalance(data.balance);
             setLevel(data.level);
-          }, 2500);
+          }, 3000);
         } else {
           setBalance(data.balance);
           setLevel(data.level);

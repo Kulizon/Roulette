@@ -46,7 +46,7 @@ const RouletteSpinner = () => {
             randomOffSet;
 
           if (!data.isInitial && innerRef.current)
-            innerRef.current!.style.transition = "1.5s";
+            innerRef.current!.style.transition = "2s";
 
           setSpin(newSpin);
 
@@ -54,7 +54,7 @@ const RouletteSpinner = () => {
             () => {
               setWinner(data.winner);
             },
-            data.isInitial ? 10 : 1500 // animation length
+            data.isInitial ? 10 : 2000 // animation length
           );
         }, timeoutLength);
       }

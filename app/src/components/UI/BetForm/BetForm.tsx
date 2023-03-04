@@ -15,6 +15,7 @@ import Button from "../Button/Button";
 const BetForm = (props: {
   type: "roulette" | "crash";
   currentCrashValue?: number;
+  timeLeft: number;
 }) => {
   const [placedBet, setPlacedBet] = useState<RouletteBet | null | CrashBet>(
     null
@@ -113,7 +114,7 @@ const BetForm = (props: {
         if (isTimeout) {
           setTimeout(() => {
             setBalance(data.balance);
-          }, 2500);
+          }, 3000); // animation length
         } else setBalance(data.balance);
       }
     );
@@ -130,7 +131,7 @@ const BetForm = (props: {
       socket.on("openRouletteBets", () => {
         setTimeout(() => {
           setIsOpen(true);
-        }, 2500); // animation length
+        }, 3000); // animation length
       });
     }
 
@@ -175,6 +176,14 @@ const BetForm = (props: {
 
   return (
     <form onSubmit={placeBetHandler} className={styles.form}>
+      <h3
+        className={`${styles.timer} ${
+          props.timeLeft === 0 ? styles.hidden : ""
+        }`}
+      >
+        Bets closing in {props.timeLeft}
+      </h3>
+
       <div className={styles["bet-input"]}>
         {props.type === "roulette" && (
           <div

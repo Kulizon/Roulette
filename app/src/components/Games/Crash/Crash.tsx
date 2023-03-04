@@ -1,5 +1,6 @@
 import { socket } from "../../../index";
 import { useEffect, useState } from "react";
+import { useTimer } from "react-timer-hook";
 
 import styles from "./Crash.module.scss";
 
@@ -11,13 +12,24 @@ const Crash = () => {
   const [crashValue, setCrashValue] = useState<number>(1);
   const [isCrashed, setIsCrashed] = useState(false);
 
+  const { seconds, restart } = useTimer({
+    expiryTimestamp: new Date(),
+    onExpire: () => console.warn("onExpire called"),
+  });
+
   useEffect(() => {
     socket.on("newCrashValue", (newCrashValue: number) => {
       setCrashValue(newCrashValue);
     });
 
     socket.on("crashed", () => setIsCrashed(true));
-    socket.on("openCrashBets", () => setIsCrashed(false));
+    socket.on("openCrashBets", () => {
+      setIsCrashed(false);
+      const time = new Date();
+      restart(time.setSeconds(time.getSeconds() + 3) as unknown as Date);
+    });
+
+    console.log(seconds);
 
     return () => {
       socket.removeListener("newCrashValue");
@@ -51,7 +63,11 @@ const Crash = () => {
           </div>
         )}
       </div>
-      <BetForm type="crash" currentCrashValue={crashValue}></BetForm>
+      <BetForm
+        type="crash"
+        currentCrashValue={crashValue}
+        timeLeft={seconds}
+      ></BetForm>
       <CrashCurrentBets></CrashCurrentBets>
     </div>
   );

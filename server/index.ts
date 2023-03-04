@@ -55,17 +55,19 @@ let crashValue = 1;
 
 ////////////////////////////////////// Roulette
 
+const ANIMATION_LENGTH = 3000;
+const BETTING_PAUSE_ROULETTE = 4000;
+
 const rouletteLoop = async () => {
   await runRouletteRound();
 
   setTimeout(() => {
-    io.emit("openRouletteBets");
     rouletteBetsOpen = true;
-  }, 2000); // animation
+  }, ANIMATION_LENGTH); // animation
 
   setTimeout(() => {
     rouletteLoop();
-  }, 6000);
+  }, ANIMATION_LENGTH + BETTING_PAUSE_ROULETTE);
 };
 
 const runRouletteRound = () => {
@@ -133,7 +135,7 @@ const runRouletteRound = () => {
 
     io.emit("openRouletteBets");
     crashBetsOpen = true;
-    io.emit("currentRouletteBetsUpdated", rouletteBets);
+    io.emit("currentRouletteBetsUpdated", rouletteBets, true);
     io.emit("rouletteHistoryUpdated", rouletteHistory);
     resolve("");
   });
@@ -391,6 +393,8 @@ io.on("connection", (socket: any) => {
     } else {
       socket.emit("betIsInvalid");
     }
+
+    console.log(rouletteBets);
   });
 
   socket.on("cancelBet", async (bet: RouletteBet, jwt: string) => {

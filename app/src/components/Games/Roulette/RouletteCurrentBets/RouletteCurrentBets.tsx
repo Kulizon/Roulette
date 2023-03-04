@@ -12,9 +12,17 @@ const RouletteCurrentBets = () => {
   useEffect(() => {
     socket.emit("getCurrentRouletteBets");
 
-    socket.on("currentRouletteBetsUpdated", (userBets: RouletteBet[]) => {
-      setUserBets(userBets);
-    });
+    socket.on(
+      "currentRouletteBetsUpdated",
+      (userBets: RouletteBet[], isTimeout) => {
+        setTimeout(
+          () => {
+            setUserBets(userBets);
+          },
+          isTimeout ? 3000 : 10
+        );
+      }
+    );
 
     return () => {
       socket.removeListener("currentRouletteBetsUpdated");
@@ -28,7 +36,7 @@ const RouletteCurrentBets = () => {
   return (
     <div className={styles["user-bets"]}>
       <BetList list={evenNumbers} type="e"></BetList>
-      <BetList type="s" list={userBets}></BetList>
+      <BetList type="s" list={specialNumbers}></BetList>
       <BetList list={oddNumbers} type="o"></BetList>
     </div>
   );
