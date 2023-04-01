@@ -19,6 +19,7 @@ const RouletteSpinner = () => {
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!socket) return;
     socket.emit("getSpans");
 
     socket.on(
@@ -61,6 +62,7 @@ const RouletteSpinner = () => {
     );
 
     return () => {
+      if (!socket) return;
       socket.removeListener("spans");
     };
   }, []);

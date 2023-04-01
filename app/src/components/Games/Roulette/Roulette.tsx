@@ -9,26 +9,32 @@ import RouletteCurrentBets from "./RouletteCurrentBets/RouletteCurrentBets";
 
 import styles from "./Roulette.module.scss";
 
+const ROULETTE_ANIMATION_LENGTH = 3000;
+const BETTING_PAUSE_ROULETTE = 8000;
+
 const Roulette = () => {
   const { seconds, isRunning, restart } = useTimer({
     expiryTimestamp: new Date(),
-    onExpire: () => console.warn("onExpire called"),
   });
 
   useEffect(() => {
+    if (!socket) return;
     socket.on("openRouletteBets", () => {
       setTimeout(() => {
         const time = new Date();
-        restart(time.setSeconds(time.getSeconds() + 4) as unknown as Date);
-      }, 3000);
+        restart(
+          time.setSeconds(
+            time.getSeconds() + BETTING_PAUSE_ROULETTE / 1000
+          ) as unknown as Date
+        );
+      }, ROULETTE_ANIMATION_LENGTH);
     });
 
     return () => {
+      if (!socket) return;
       socket.removeListener("openRouletteBets");
     };
   }, []);
-
-  console.log(seconds);
 
   return (
     <div className={styles.roulette}>

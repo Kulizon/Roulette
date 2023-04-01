@@ -3,6 +3,7 @@ import { CrashBet, RouletteBet, Bet } from "../../../types/Bets";
 import { socket } from "../../../index";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { toast } from "react-toastify";
 
 import styles from "./BetForm.module.scss";
 import crystalPng from "./../../../resources/crystal.png";
@@ -31,19 +32,19 @@ const BetForm = (props: {
     e.preventDefault();
 
     if (!jwt) {
-      console.log("Login!");
+      toast.error("Login!");
       return;
     }
 
-    console.log();
+    if (!socket) return;
 
     if (e.nativeEvent.submitter.id === "stop") {
       socket.emit("stopCrash", placedBet, jwt, props.currentCrashValue);
       return;
     }
 
-    if (!isOpen) {
-      console.log("Bet's not open");
+    if (!isOpen && e.nativeEvent.submitter.id === "bet") {
+      toast.error("Bets closed. Wait for the next round!");
       return;
     }
 
@@ -51,12 +52,12 @@ const BetForm = (props: {
       const amount = +betInputRef.current!.value;
 
       if (!selectedBet && props.type === "roulette") {
-        console.log("Wrong number");
+        toast.error("Please choose what to bet on!");
         return;
       }
 
       if (amount < 1 && amount >= balance) {
-        console.log("Wrong amount");
+        toast.error("Invalid amount!");
         return;
       }
 
@@ -89,23 +90,23 @@ const BetForm = (props: {
   };
 
   useEffect(() => {
+    if (!socket) return;
     socket.on("betIsValid", (bet: RouletteBet) => {
-      console.log("Bet placed successfully");
       setPlacedBet(bet);
     });
 
     socket.on("betIsInvalid", () => {
-      // set text or smth
-      console.log("Bet placing failed");
+      toast.error("Bet was invalid... try again!");
     });
 
     socket.on("cancelSuccess", (bet: RouletteBet) => {
-      // set text or smth
       setPlacedBet(null);
     });
 
     socket.on("cancelFailure", () => {
-      // set text or smth
+      console.log(123);
+
+      toast.error("Cancel failed... try again!");
     });
 
     socket.on(
@@ -149,7 +150,7 @@ const BetForm = (props: {
       });
 
       socket.on("stopCrashFailed", () => {
-        console.log("Try again!");
+        toast.error("Stopping failed... try again!");
       });
 
       socket.on("stopCrashSuccess", () => {
@@ -158,6 +159,7 @@ const BetForm = (props: {
     }
 
     return () => {
+      if (!socket) return;
       socket.removeListener("betIsValid");
       socket.removeListener("betIsInvalid");
       socket.removeListener("cancelSuccess");

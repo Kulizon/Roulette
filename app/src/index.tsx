@@ -6,6 +6,7 @@ import store from "./store/index";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import "./index.scss";
+import "react-toastify/dist/ReactToastify.css"; // toastify 
 
 import App from "./App";
 

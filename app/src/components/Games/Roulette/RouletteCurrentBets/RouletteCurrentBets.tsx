@@ -10,6 +10,7 @@ const RouletteCurrentBets = () => {
   const [userBets, setUserBets] = useState<RouletteBet[]>([]);
 
   useEffect(() => {
+    if (!socket) return;
     socket.emit("getCurrentRouletteBets");
 
     socket.on(
@@ -25,6 +26,7 @@ const RouletteCurrentBets = () => {
     );
 
     return () => {
+      if (!socket) return;
       socket.removeListener("currentRouletteBetsUpdated");
     };
   }, []);

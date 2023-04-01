@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { socket } from "../../index";
 import { RootState } from "../../store";
 import { changeGame, changeUser } from "../../store/user";
+import { toast } from "react-toastify";
 
 import styles from "./Menu.module.scss";
 import crystalPng from "./../../resources/crystal.png";
@@ -14,7 +15,6 @@ import {
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "../UI/Button/Button";
 import LevelDisplay from "./LevelDisplay/LevelDisplay";
 
 const Menu = () => {
@@ -25,20 +25,29 @@ const Menu = () => {
   const { name, image } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
+    if (!socket) return;
     socket.on(
       "newUserInfo",
       (data: { balance: number; level: number }, isTimeout) => {
         if (isTimeout) {
           setTimeout(() => {
+            if (data.level > level)
+              toast.success("Congratulations on leveling up!");
             setBalance(data.balance);
             setLevel(data.level);
           }, 3000);
-        } else {
-          setBalance(data.balance);
-          setLevel(data.level);
+          return;
         }
+
+        setBalance(data.balance);
+        setLevel(data.level);
       }
     );
+
+    return () => {
+      if (!socket) return;
+      socket.removeListener("newUserInfo");
+    };
   }, []);
 
   return (

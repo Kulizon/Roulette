@@ -50,11 +50,16 @@
 
         &:hover {
           border-bottom: 1px solid $main;
-        }
-      }
 
-      svg {
-        margin-right: 0.5rem;
+          svg {
+            transform: translateY(-5px) rotate(10deg) scale(1.1);
+          }
+        }
+
+        svg {
+          margin-right: 0.5rem;
+          transition: 0.1s;
+        }
       }
     }
   }

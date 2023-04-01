@@ -12,6 +12,7 @@ const RouletteHistory = () => {
   const [history, setHistory] = useState<RouletteRound[]>([]);
 
   useEffect(() => {
+    if (!socket) return;
     socket.emit("getRouletteHistory");
 
     socket.on(
@@ -25,6 +26,7 @@ const RouletteHistory = () => {
     );
 
     return () => {
+      if (!socket) return;
       socket.removeListener("rouletteHistoryUpdated");
     };
   }, []);

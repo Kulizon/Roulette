@@ -8,6 +8,7 @@ const CrashHistory = () => {
   const [history, setHistory] = useState<CrashRound[]>([]);
 
   useEffect(() => {
+    if (!socket) return;
     socket.emit("getCrashHistory");
 
     socket.on("crashHistoryUpdated", (newHistory: CrashRound[]) => {
@@ -15,6 +16,7 @@ const CrashHistory = () => {
     });
 
     return () => {
+      if (!socket) return;
       socket.removeListener("crashHistoryUpdated");
     };
   }, []);

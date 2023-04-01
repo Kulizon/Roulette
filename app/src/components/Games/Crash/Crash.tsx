@@ -8,16 +8,18 @@ import BetForm from "./../../UI/BetForm/BetForm";
 import CrashHistory from "./CrashHistory/CrashHistory";
 import CrashCurrentBets from "./CrashCurrentBets/CrashCurrentBets";
 
+const BETTING_PAUSE = 8000;
+
 const Crash = () => {
   const [crashValue, setCrashValue] = useState<number>(1);
   const [isCrashed, setIsCrashed] = useState(false);
 
   const { seconds, restart } = useTimer({
     expiryTimestamp: new Date(),
-    onExpire: () => console.warn("onExpire called"),
   });
 
   useEffect(() => {
+    if (!socket) return;
     socket.on("newCrashValue", (newCrashValue: number) => {
       setCrashValue(newCrashValue);
     });
@@ -26,12 +28,15 @@ const Crash = () => {
     socket.on("openCrashBets", () => {
       setIsCrashed(false);
       const time = new Date();
-      restart(time.setSeconds(time.getSeconds() + 3) as unknown as Date);
+      restart(
+        time.setSeconds(
+          time.getSeconds() + BETTING_PAUSE / 1000
+        ) as unknown as Date
+      );
     });
 
-    console.log(seconds);
-
     return () => {
+      if (!socket) return;
       socket.removeListener("newCrashValue");
       socket.removeListener("crashed");
     };

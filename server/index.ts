@@ -55,19 +55,19 @@ let crashValue = 1;
 
 ////////////////////////////////////// Roulette
 
-const ANIMATION_LENGTH = 3000;
-const BETTING_PAUSE_ROULETTE = 4000;
+const ROULETTE_ANIMATION_LENGTH = 3000;
+const BETTING_PAUSE_ROULETTE = 8000;
 
 const rouletteLoop = async () => {
   await runRouletteRound();
 
   setTimeout(() => {
     rouletteBetsOpen = true;
-  }, ANIMATION_LENGTH); // animation
+  }, ROULETTE_ANIMATION_LENGTH); // animation
 
   setTimeout(() => {
     rouletteLoop();
-  }, ANIMATION_LENGTH + BETTING_PAUSE_ROULETTE);
+  }, ROULETTE_ANIMATION_LENGTH + BETTING_PAUSE_ROULETTE);
 };
 
 const runRouletteRound = () => {
@@ -143,7 +143,7 @@ const runRouletteRound = () => {
 
 ////////////////////////////////////// Crash
 
-const BETTING_PAUSE = 3000;
+const BETTING_PAUSE = 8000;
 const AFTER_ROUND_PAUSE = 3000;
 
 const crashLoop = async () => {
@@ -160,9 +160,16 @@ const runCrashRound: () => Promise<number> = () => {
     crashBetsOpen = false;
     crashRunning = true;
 
-    const stopsAfter = Math.random() * 10000 + 2000;
-    let i = 1;
+    let stopsAfter = 1000;
+    const numDice = 10;
+    for (let i = 0; i < numDice; i++)
+      stopsAfter += Math.random() * (10000 / numDice);
+    stopsAfter = stopsAfter * (1 / 4);
+    if (Math.random() * 100 < 30) stopsAfter += Math.random() * 3000 + 1000;
+    if (Math.random() * 100 < 15) stopsAfter += Math.random() * 9000 + 5000;
+    stopsAfter = Math.floor(stopsAfter);
 
+    let i = 1;
     const crashInterval = setInterval(() => {
       crashValue = parseFloat((crashValue + (2 ^ i) / 100).toFixed(2));
       i += 0.001;
@@ -219,7 +226,7 @@ setTimeout(() => {
 }, 1000);
 
 io.on("connection", (socket: any) => {
-  console.log("user connected");
+  console.log("User connected");
 
   connections.push(socket.id);
 
@@ -377,7 +384,6 @@ io.on("connection", (socket: any) => {
 
         if (bet.type === "crash") {
           crashBets.push(bet as CrashBet);
-          console.log("hrere");
 
           io.emit("currentCrashBetsUpdated", crashBets);
         }
@@ -387,14 +393,13 @@ io.on("connection", (socket: any) => {
           balance: user?.balance,
           level: user.level,
         });
-      } else {
-        socket.emit("betIsInvalid");
+        return;
       }
-    } else {
-      socket.emit("betIsInvalid");
-    }
 
-    console.log(rouletteBets);
+      socket.emit("betIsInvalid");
+      return;
+    }
+    socket.emit("betIsInvalid");
   });
 
   socket.on("cancelBet", async (bet: RouletteBet, jwt: string) => {
@@ -418,6 +423,7 @@ io.on("connection", (socket: any) => {
       await updateUser(user, bet, bet.amount, socket);
       socket.emit("cancelSuccess", bet);
       io.emit("currentRouletteBetsUpdated", rouletteBets);
+      return;
     }
 
     if (bet.type === "crash" && crashBetsOpen && userAlreadyPlacedBet && user) {
@@ -425,6 +431,7 @@ io.on("connection", (socket: any) => {
       await updateUser(user, bet, bet.amount, socket);
       socket.emit("cancelSuccess", bet);
       io.emit("currentCrashBetsUpdated", crashBets);
+      return;
     }
 
     socket.emit("cancelFailure", bet);
@@ -465,7 +472,7 @@ io.on("connection", (socket: any) => {
   );
 
   socket.once("disconnect", function () {
-    console.log("user disconnected");
+    console.log("User disconnected");
 
     connections = connections.filter((c) => c !== socket.id);
     // loggedInUsers = loggedInUsers.filter((user) => user.socketID !== socket.id);

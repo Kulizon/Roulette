@@ -12,6 +12,7 @@ const CrashCurrentBets = () => {
   const [userBets, setUserBets] = useState<CrashBet[]>([]);
 
   useEffect(() => {
+    if (!socket) return;
     socket.emit("getCurrentCrashBets");
 
     socket.on("currentCrashBetsUpdated", (userBets: CrashBet[]) => {
@@ -19,6 +20,7 @@ const CrashCurrentBets = () => {
     });
 
     return () => {
+      if (!socket) return;
       socket.removeListener("currentCrashBetsUpdated");
     };
   }, []);
