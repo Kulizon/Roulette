@@ -84,6 +84,7 @@ const BetForm = (props: {
       e.target[0].checked = false;
       e.target[1].checked = false;
       e.target[2].checked = false;
+      setSelectedBet("");
     } else if (e.nativeEvent.submitter.id === "cancel") {
       socket.emit("cancelBet", placedBet, jwt);
     }
@@ -104,8 +105,6 @@ const BetForm = (props: {
     });
 
     socket.on("cancelFailure", () => {
-      console.log(123);
-
       toast.error("Cancel failed... try again!");
     });
 

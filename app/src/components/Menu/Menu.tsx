@@ -31,8 +31,6 @@ const Menu = () => {
       (data: { balance: number; level: number }, isTimeout) => {
         if (isTimeout) {
           setTimeout(() => {
-            if (data.level > level)
-              toast.success("Congratulations on leveling up!");
             setBalance(data.balance);
             setLevel(data.level);
           }, 3000);

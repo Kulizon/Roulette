@@ -296,7 +296,7 @@ io.on("connection", (socket: any) => {
         const user = {
           name: result.name,
           email: result.email,
-          balance: query.docs[0].data().balance, // get from db later
+          balance: Math.floor(query.docs[0].data().balance), // get from db later
           googleID: googleID,
           id: query.docs[0].id,
           socketID: socket.id,
@@ -309,7 +309,7 @@ io.on("connection", (socket: any) => {
 
         socket.emit("loginSuccess", user);
         socket.emit("newUserInfo", {
-          balance: query.docs[0].data().balance,
+          balance: Math.floor(query.docs[0].data().balance),
           level: query.docs[0].data().level,
         });
       }
@@ -355,7 +355,12 @@ io.on("connection", (socket: any) => {
 
     const user = loggedInUsers.find((user) => user.jwt === jwt);
 
-    if (newBet.amount > 0 && !userAlreadyPlacedBet && user) {
+    if (
+      newBet.amount > 0 &&
+      !userAlreadyPlacedBet &&
+      user &&
+      newBet.amount <= user.balance
+    ) {
       if (
         newBet.type === "roulette" &&
         ((newBet as RouletteBet).number < -1 ||
@@ -496,14 +501,14 @@ const updateUser = async (
     .collection("users")
     .doc(user.id)
     .update({
-      balance: parseFloat((user.balance + amount).toFixed(2)),
+      balance: Math.floor(user.balance + amount),
       level: parseFloat(
         (user.level + (levelValue ? levelValue : 0)).toFixed(2)
       ),
     });
 
   if (res) {
-    user.balance = parseFloat((user.balance + amount).toFixed(2));
+    user.balance = Math.floor(user.balance + amount);
     user.level = parseFloat(
       (user.level + (levelValue ? levelValue : 0)).toFixed(2)
     );
